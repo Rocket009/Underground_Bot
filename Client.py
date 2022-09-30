@@ -2,6 +2,7 @@ import discord
 from discord import app_commands
 from private.config import DiscordToken
 from Commands import callbacks
+from Commands import GUILDS
 
 
 class Client(discord.Client):
@@ -13,7 +14,9 @@ class Client(discord.Client):
 
     async def on_ready(self):
         print("We have logged in as {0}".format(self.user))
-        await tree.sync(guild=discord.Object(id=1018192683723915284))
+        
+        for guild in GUILDS:
+            await tree.sync(guild=guild)
 
 
 
