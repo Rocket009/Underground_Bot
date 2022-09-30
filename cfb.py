@@ -37,7 +37,7 @@ class cfb_api:
         if not self.check_rank(team, ranks):
             return None
         for schools in ranks:
-            if schools.school == team:
+            if schools.school.lower() == team.lower():
                 return int(schools.rank)
 
     def getcurrentweek(self) -> int:
@@ -60,6 +60,16 @@ class cfb_api:
                 if self.check_rank(game.away_team, ranks):
                     goodgames.append(f"#{self.get_rank(game.away_team, ranks)} {game.away_team} at #{self.get_rank(game.home_team, ranks)} {game.home_team}")
         return goodgames
+
+    def searchgame(self, team : str) -> str:
+        api_instance = cfbd.GamesApi(cfbd.ApiClient(configuration=self.configuraion))
+        games = api_instance.get_games(self.currentyear, week=self.getcurrentweek())
+        for game in games:
+            if game.home_team.lower() == team.lower():
+                return f"{team} plays {game.away_team} at home"
+            elif game.away_team.lower() == team.lower():
+                return f"{team} plays {game.home_team} away"
+        return f"{team} does not play this week or does not exist"
 
 
 def main():

@@ -41,3 +41,7 @@ def callbacks(tree : app_commands.CommandTree):
         games = cfb_obj.getgoodgames()
         for game in games:
             await interaction.channel.send(game)
+
+    @tree.command(name="game_search", description="Prints the opponite for the game this week", guilds=GUILDS)
+    async def self(interaction : discord.Interaction, team : str):
+        await interaction.response.send_message(cfb_obj.searchgame(team))
