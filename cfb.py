@@ -66,9 +66,9 @@ class cfb_api:
         games = api_instance.get_games(self.currentyear, week=self.getcurrentweek())
         for game in games:
             if game.home_team.lower() == team.lower():
-                return f"{team} plays {game.away_team} at home"
+                return f"{game.home_team} plays {game.away_team} at home"
             elif game.away_team.lower() == team.lower():
-                return f"{team} plays {game.home_team} away"
+                return f"{game.away_team} plays {game.home_team} away"
         return f"{team} does not play this week or does not exist"
 
 
