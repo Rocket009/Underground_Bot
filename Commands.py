@@ -1,10 +1,12 @@
 import discord
-from discord import app_commands
+from discord import Team, app_commands
 from cfb import cfb_api
+import footy 
 
 
 def callbacks(tree : app_commands.CommandTree):
     cfb_obj = cfb_api()
+    foot_obj=footy.footydb()
 
     @tree.command(name = "echo", description = "echo text", guild = discord.Object(id=1018192683723915284))
     async def self(interaction: discord.Interaction, name : str):
@@ -21,3 +23,9 @@ def callbacks(tree : app_commands.CommandTree):
         for schools in r:
             await interaction.channel.send(f"Rank #{index + 1} {schools}")
             index += 1
+
+    @tree.command(name = "PL_table", description="Prints the current English Premier League table", guild = discord.Object(id=1018192683723915284))
+    async def self(interaction : discord.Interaction):
+        table = foot_obj.get_table()
+        for team in table:
+            await interaction.channel.send(f"{team}")
